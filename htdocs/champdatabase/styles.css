@@ -1,0 +1,41 @@
+.imageGroup img {
+    background-color: #000080;  /*Navy background */
+    border: 1px solid #000080; /* Navy border */
+    color: white; /*White text*/ 
+    padding: -20px 2px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    display: block; /* Make the buttons appear below each other */
+    margin-left: 20px;
+}
+
+body {
+    background-color: cornflowerblue;
+}
+
+h2 {
+    text-align: center;
+    color: #000000;
+    font: Verdana;
+}
+
+p {
+    text-align: center;
+    color: #000000;
+    font: arial;
+}
+
+
+center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+.championImg{
+    opacity:1;
+}
+
+.championImg:hover{
+    opacity:0.5;
+    transition: opacity 0.2s ease;
+}

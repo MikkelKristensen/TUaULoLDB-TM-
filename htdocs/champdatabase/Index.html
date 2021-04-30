@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<body style="background-color:#061e36;">
+<style>
+    body {
+        color: #D5D4D4;
+    }
+    body {
+        background-image: url("banner.png");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+</style>
+<head>
+    <title>Unofficial League Database</title>
+    <link href="styles.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
+</head>
+<body>
+
+<!--Site description-->    
+    <section class="w3container w3-center w3-content" style="max-width:600px; text-shadow: 1px 1px 6px #FFFFFF">
+        <h2 class="w3-wide"><b>Welcome to the unofficial League of Legends Database</b></h2>
+        <p><i><b>This is a fan-made website which contains data on champions of League of Legends&#8482;</b></i></p>
+    </section>
+
+    <div id="myCanvasGroup">
+        <canvas id="canvasPassive" style="position:absolute; top:350px; left:240px; width:1660px; height:245px; border:3px solid #000000;"></canvas>
+        <canvas id="canvasQ" style="position:absolute; top:600px; left:240px; width:1660px; height:350px; border:3px solid #000000;"></canvas>
+        <canvas id="canvasW" style="position:absolute; top:955px; left:240px; width:1660px; height:325px; border:3px solid #000000;"></canvas>
+        <canvas id="canvasE" style="position:absolute; top:1285px; left:240px; width:1660px; height:400px; border:3px solid #000000;"></canvas>
+        <canvas id="canvasR" style="position:absolute; top:1690px; left:240px; width:1660px; height:250px; border:3px solid #000000;"></canvas>
+    </div>
+    
+    <canvas></canvas>
+    
+    <div id='form1' style="position:relative">
+        <div id='passiveNamePosition' style="position:absolute; top:15px; left:250px; z-index:1">
+            <h1 id="txtPassiveName"></h1>
+        </div>
+        <div id='passiveDescriptionPosition' style="position:absolute; top:85px; left:250px; z-index:2">
+            <div id="txtPassiveDescription"><b></b></div>
+        </div>
+        
+        <div id='qNamePosition' style="position:absolute; top:260px; left:250px; z-index:3">
+            <h1 id="txtQName"></h1>
+        </div>
+        <div id='qAttributesPosition' style="position:absolute; top:290px; left:600px; z-index:4">
+            <div id="txtQAttributes"><b></b></div>
+        </div>
+        <div id='qDescriptionPosition' style="position:absolute; top:340px; left:250px; z-index:5">
+            <div id="txtQDescription"><b></b></div>
+        </div>
+        
+        <div id='wNamePosition' style="position:absolute; top:615px; left:250px; z-index:6">
+            <h1 id="txtWName"></h1>
+        </div>
+        <div id='wAttributesPosition' style="position:absolute; top:645px; left:600px; z-index:7">
+            <div id="txtWAttributes"><b></b></div>
+        </div>
+        <div id='wDescriptionPosition' style="position:absolute; top:705px; left:250px; z-index:8">
+            <div id="txtWDescription"><b></b></div>
+        </div>
+        
+        <div id='eNamePosition' style="position:absolute; top:950px; left:250px; z-index:9">
+            <h1 id="txtEName"></h1>
+        </div>
+        <div id='eAttributesPosition' style="position:absolute; top:980px; left:600px; z-index:10">
+            <div id="txtEAttributes"><b></b></div>
+        </div>
+        <div id='eDescriptionPosition' style="position:absolute; top:1025px; left:250px; z-index:11">
+            <div id="txtEDescription"><b></b></div>
+        </div>
+        
+        <div id='rNamePosition' style="position:absolute; top:1350px; left:250px; z-index:12">
+            <h1 id="txtRName"></h1>
+        </div>
+        <div id='rAttributesPosition' style="position:absolute; top:1380px; left:600px; z-index:13">
+            <div id="txtRAttributes"><b></b></div>
+        </div>
+        <div id='rDescriptionPosition' style="position:absolute; top:1425px; left:250px; z-index:14">
+            <div id="txtRDescription"><b></b></div>
+        </div>
+    </div>
+<!--Buttons with character images-->
+    <div class="imageGroup">
+        <img class="championImg" src="champimages/Ahri.png" alt="Champion_Ahri" id="Ahri">
+        <img class="championImg" src="champimages/Malphite.png" alt="Champion_Malphite" id="Malphite" style="position:relative; top:10px">
+        <img class="championImg" src="champimages/Nasus.png" alt="Champion_Nasus" id="Nasus" style="position:relative; top:20px">
+        <img class="championImg" src="champimages/Thresh.png" alt="Champion_Thresh" id="Thresh" style="position:relative; top:30px">
+        <img class="championImg" src="champimages/Tristana.png" alt="Champion_Tristana" id="Tristana" style="position:relative; top:40px">
+    </div>
+
+<!--Interactivity for buttons-->
+    <script type="text/javascript">
+        
+        function addClickEvent(champName){
+            document.getElementById(champName).addEventListener("click", function(){
+                updateChampInformation(champName);
+            });
+        }
+        function fillCanvas(canvasName){
+            let canvas=document.getElementById(canvasName);
+            let render=canvas.getContext("2d");
+            render.fillStyle="#061e36";
+            render.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        
+        function updateChampInformation(champName) {
+            if (champName=="") {
+                return;
+            }
+            const xmlhttp=new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function() {
+                if (this.readyState==4 && this.status==200) {
+                    const champdata = JSON.parse(this.responseText);
+                    console.log(champdata);
+                    document.getElementById("txtPassiveName").innerHTML = champdata.passive.name;
+                    document.getElementById("txtPassiveDescription").innerHTML = champdata.passive.description;
+
+                    document.getElementById("txtQName").innerHTML = champdata.q.name;
+                    document.getElementById("txtQAttributes").innerHTML = champdata.q.attributes;
+                    document.getElementById("txtQDescription").innerHTML = champdata.q.description;
+
+                    document.getElementById("txtWName").innerHTML = champdata.w.name;
+                    document.getElementById("txtWAttributes").innerHTML = champdata.w.attributes;
+                    document.getElementById("txtWDescription").innerHTML = champdata.w.description;
+
+                    document.getElementById("txtEName").innerHTML = champdata.e.name;
+                    document.getElementById("txtEAttributes").innerHTML = champdata.e.attributes;
+                    document.getElementById("txtEDescription").innerHTML = champdata.e.description;
+
+                    document.getElementById("txtRName").innerHTML = champdata.r.name;
+                    document.getElementById("txtRAttributes").innerHTML = champdata.r.attributes;
+                    document.getElementById("txtRDescription").innerHTML = champdata.r.description;
+
+                }
+            }
+            xmlhttp.open("GET","getChampion.php?champname="+champName,true);
+            xmlhttp.send();
+        }
+
+        window.onload = function() {
+            let champNames = [];
+            let champGroup = document.getElementsByClassName("championImg");
+            for(i = 0; i < champGroup.length; i++){
+                champNames[i] = champGroup.item(i).id;
+            }
+            champNames.forEach(addClickEvent);
+
+            let canvasNames = [];
+            let canvasGroup = document.getElementById("myCanvasGroup");
+            for(i = 0; i < canvasGroup.children.length; i++){
+                canvasNames[i] = canvasGroup.children.item(i).id;
+            }
+            canvasNames.forEach(fillCanvas);
+        }
+        
+
+    </script>
+</body>
+</html>
